@@ -1,0 +1,57 @@
+package entities;
+
+public class Invoicing {
+	private double[] faturamentoDiario;
+
+    // Construtor
+    public void Faturamento(double[] faturamentoDiario) {
+        this.faturamentoDiario = faturamentoDiario;
+    }
+
+    // Método para calcular o menor valor de faturamento
+    public double calcularMenorFaturamento() {
+        double menor = Double.MAX_VALUE;
+        for (double valor : faturamentoDiario) {
+            if (valor < menor) {
+                menor = valor;
+            }
+        }
+        return menor;
+    }
+
+    // Método para calcular o maior valor de faturamento
+    public double calcularMaiorFaturamento() {
+        double maior = Double.MIN_VALUE;
+        for (double valor : faturamentoDiario) {
+            if (valor > maior) {
+                maior = valor;
+            }
+        }
+        return maior;
+    }
+
+    // Método para calcular a média do faturamento mensal
+    public double calcularMediaMensal() {
+        double soma = 0;
+        int diasComFaturamento = 0;
+        for (double valor : faturamentoDiario) {
+            if (valor > 0) {
+                soma += valor;
+                diasComFaturamento++;
+            }
+        }
+        return soma / diasComFaturamento;
+    }
+
+    // Método para contar os dias com faturamento superior à média mensal
+    public int contarDiasSuperioresMedia() {
+        double media = calcularMediaMensal();
+        int diasSuperioresMedia = 0;
+        for (double valor : faturamentoDiario) {
+            if (valor > media) {
+                diasSuperioresMedia++;
+            }
+        }
+        return diasSuperioresMedia;
+    }
+}

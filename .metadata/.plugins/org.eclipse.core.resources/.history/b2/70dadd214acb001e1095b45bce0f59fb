@@ -1,0 +1,53 @@
+package application;
+
+import java.io.File;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+public class Program {
+
+	public static void main(String[] args) {
+		try {
+            // Carregar e analisar o arquivo XML
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(new File("faturamento.xml"));
+
+            // Obter a lista de elementos de faturamento diário
+            NodeList nodeList = document.getElementsByTagName("dia");
+
+            // Array para armazenar os valores de faturamento diário
+            double[] faturamentoDiario = new double[nodeList.getLength()];
+
+            // Preencher o array com os valores de faturamento diário
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                Node node = nodeList.item(i);
+                if (node.getNodeType() == Node.ELEMENT_NODE) {
+                    Element elemento = (Element) node;
+                    faturamentoDiario[i] = Double.parseDouble(elemento.getTextContent());
+                }
+            }
+
+            // Criar instância da classe Faturamento
+            Faturamento faturamento = new Faturamento(faturamentoDiario);
+
+            // Calcular e exibir menor e maior faturamento
+            System.out.println("Menor faturamento: " + faturamento.calcularMenorFaturamento());
+            System.out.println("Maior faturamento: " + faturamento.calcularMaiorFaturamento());
+
+            // Calcular e exibir número de dias com faturamento superior à média mensal
+            System.out.println("Dias com faturamento superior à média mensal: " + faturamento.contarDiasSuperioresMedia());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+	}
+
+	}

@@ -1,0 +1,22 @@
+package entities;
+import java.io.IOException;
+import java.nio.file.Paths;
+import entities.MensalInvoicing;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+public class JsonReader {
+
+    public static void main(String[] args) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+
+        MensalInvoicing monthlyInvoicing = mapper.readValue(Paths.get("faturamento.json").toFile(), MensalInvoicing.class);
+
+        for (DailyInvoicing invoice : monthlyInvoicing.getInvoices()) {
+            System.out.println(invoice.getDate() + " - R$ " + invoice.getValue());
+        }
+
+        monthlyInvoicing.printSummary();
+    }
+}
+

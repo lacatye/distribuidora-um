@@ -1,0 +1,30 @@
+package application;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.DocumentBuilder;
+import java.io.File;
+import entities.DailyInvoicing;
+import entities.MensalInvoicing;
+
+public class Reader {
+
+    public static MensalInvoicing parseXML(String filePath) throws Exception {
+        MensalInvoicing monthlyInvoicing = new MensalInvoicing();
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document document = builder.parse(new File(filePath));
+        Element invoicesElement = document.getDocumentElement();
+        NodeList dailyInvoices = invoicesElement.getElementsByTagName("dailyInvoice");
+        for (int i = 0; i < dailyInvoices.getLength(); i++) {
+            Element dailyInvoiceElement = (Element) dailyInvoices.item(i);
+            String date = dailyInvoiceElement.getElementsByTagName("date").item(0).getTextContent();
+            double value = Double.parseDouble(dailyInvoiceElement.getElementsByTagName("value").item(0).getTextContent());
+            DailyInvoicing dailyInvoicing = new DailyInvoicing(date, value);
+            monthlyInvoicing.addInvoice(dailyInvoicing);
+        }
+        return monthlyInvoicing;
+    }
+}
+

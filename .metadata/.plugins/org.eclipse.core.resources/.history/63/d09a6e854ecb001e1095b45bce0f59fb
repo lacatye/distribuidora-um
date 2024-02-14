@@ -1,0 +1,28 @@
+package application;
+
+import java.util.Scanner;
+
+import entities.DailyInvoicing;
+import entities.MensalInvoicing;
+
+public class Reader {
+
+	public static void main(String[] args) {
+		
+		Scanner sc = new Scanner(System.in);
+				
+		double average = calculateAverage();
+		DailyInvoicing lowestValue = findLowestValue();
+		DailyInvoicing highestValue = findHighestValue();
+		int daysAboveAverage = countDaysAboveAverage();
+
+		System.out.println("**Monthly Invoicing Summary:**");
+		System.out.printf("Daily average: R$ %.2f\n", average);
+		System.out.println("Lowest value: " + lowestValue.getDate() + " - R$ " + lowestValue.getValue());
+		System.out.println("Highest value: " + highestValue.getDate() + " - R$ " + highestValue.getValue());
+		System.out.println("Days above average: " + daysAboveAverage);
+		
+		sc.close();
+	}
+
+}
